@@ -1,0 +1,14 @@
+.detailBox {
+  background-color: rebeccapurple;
+  color: white;
+  width: 650px;
+}
+.closeDetail {
+  display: flex;
+  justify-content: space-between;
+}
+.closeDetail button {
+  width: 50px;
+  background-color: brown;
+  border: none;
+}

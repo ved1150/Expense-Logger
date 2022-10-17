@@ -9,6 +9,10 @@ function GlobalState(props) {
     login: (token) => setToken(token),
     tokenId: token,
     userLogin: isTokenAvilable,
+    preinfo: {
+      name: "",
+      url: "",
+    },
   };
   return (
     <GlobalContext.Provider value={globalStore}>
