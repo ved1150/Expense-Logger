@@ -9,6 +9,7 @@ function GlobalState(props) {
     login: (token) => setToken(token),
     tokenId: token,
     userLogin: isTokenAvilable,
+    userlogout : () => setToken(null),
     preinfo: {
       name: "",
       url: "",

@@ -72,6 +72,9 @@ export default function HomePage() {
       }
     });
   }
+  function logout(){
+    globalStore.userlogout()
+  }
   return (
     <div>
       <h1>Welcome to Expense Tracker</h1>
@@ -80,6 +83,7 @@ export default function HomePage() {
         <button onClick={() => setA(true)}>complete now</button>
       </h4>
       {!isverifyEmail && <button onClick={verifyEmail}>verify email</button>}
+      <button onClick={logout}>Logout</button>
       <hr />
       {a && (
         <form onSubmit={updateDetail}>
