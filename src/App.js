@@ -1,12 +1,15 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import AuthForm from './--AUTHENTICATION--/AuthForm'
+import React, { useContext } from "react";
+import { Route } from "react-router-dom";
+import AuthForm from "./--AUTHENTICATION--/AuthForm";
+import globalContext from "./--CONTEXT--/globalContext";
+import HomePage from "./--PAGE--/HomePage";
 export default function App() {
+  let globalStore = useContext(globalContext);
+  console.log(globalStore.userLogin);
   return (
     <div>
-      {/* <Route path="./"> */}
-        <AuthForm />
-      {/* </Route> */}
+      {!globalStore.userLogin && <AuthForm />}
+      {globalStore.userLogin && <HomePage />}
     </div>
-  )
+  );
 }
