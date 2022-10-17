@@ -3,6 +3,7 @@ import globalContext from "../--CONTEXT--/globalContext";
 import "./HomePage.css";
 export default function HomePage() {
   const [a, setA] = useState(false);
+  const [isverifyEmail, setIsVerifyEmail] = useState(false);
   const globalStore = useContext(globalContext);
   const name = useRef();
   const url = useRef();
@@ -26,7 +27,7 @@ export default function HomePage() {
     ).then((res) => {
       if (res.ok) {
         alert("your form is updated");
-        res.json().then((data) => data);
+        res.json().then((data) => console.log(data));
       } else {
         res.json().then((data) => data);
       }
@@ -43,7 +44,6 @@ export default function HomePage() {
       }
     ).then((res) => {
       if (res.ok) {
-        alert("your form is updated");
         res.json().then((data) => {
           globalStore.preinfo.name = data.users[0].email;
           globalStore.preinfo.url = data.users[0].photoUrl;
@@ -53,6 +53,25 @@ export default function HomePage() {
       }
     });
   }, []);
+  function verifyEmail() {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC5BXr8sSDXdJ4Ye8lN8J9vnNi0s3nXtVg",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          idToken: globalStore.tokenId,
+          requestType: "VERIFY_EMAIL",
+        }),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        alert("Check in your mail box");
+        setIsVerifyEmail(true);
+      } else {
+        res.json().then((data) => alert(data.error.message));
+      }
+    });
+  }
   return (
     <div>
       <h1>Welcome to Expense Tracker</h1>
@@ -60,6 +79,7 @@ export default function HomePage() {
         Your profile is incomplete.
         <button onClick={() => setA(true)}>complete now</button>
       </h4>
+      {!isverifyEmail && <button onClick={verifyEmail}>verify email</button>}
       <hr />
       {a && (
         <form onSubmit={updateDetail}>
