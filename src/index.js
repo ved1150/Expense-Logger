@@ -5,6 +5,7 @@ import App from "./App";
 import GlobalState from "./--CONTEXT--/GlobalState";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  
   <GlobalState>
     <App />
   </GlobalState>
