@@ -1,9 +1,10 @@
-.authForm{
-    display: flex;
-    flex-direction: column;
-   text-align: center;
+.authForm {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
-.authForm input ,button {
-    width: 200px;
-    margin: auto;
+.authForm input,
+button {
+  width: 200px;
+  margin: auto;
 }

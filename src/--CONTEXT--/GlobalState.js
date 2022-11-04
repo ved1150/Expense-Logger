@@ -16,6 +16,8 @@ function GlobalState(props) {
       name: "",
       url: "",
     },
+    expensesList : [],
+    
   };
   return (
     <GlobalContext.Provider value={globalStore}>

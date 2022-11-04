@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import globalContext from "../--CONTEXT--/globalContext";
 import "./HomePage.css";
+import ExpensesForm from "../--LAYOUT--/ExpensesForm";
 export default function HomePage() {
   const [a, setA] = useState(false);
   const [isverifyEmail, setIsVerifyEmail] = useState(false);
@@ -72,8 +73,8 @@ export default function HomePage() {
       }
     });
   }
-  function logout(){
-    globalStore.userlogout()
+  function logout() {
+    globalStore.userlogout();
   }
   return (
     <div>
@@ -107,6 +108,7 @@ export default function HomePage() {
           </div>
         </form>
       )}
+      <ExpensesForm />
     </div>
   );
 }
