@@ -1,9 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./ExpensesForm.css";
 import globalContext from "../--CONTEXT--/globalContext";
 export default function ExpensesForm() {
   let globalStore = useContext(globalContext);
   const [items, setItems] = useState([]);
+  const [render, setRender] = useState(0);
   let amount = useRef();
   let description = useRef();
   let categories = useRef();
@@ -19,8 +20,39 @@ export default function ExpensesForm() {
       userCategories: enterCategories,
     };
     globalStore.expensesList.push(item);
-    setItems(globalStore.expensesList);
+    fetch(
+      "https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo.json",
+      {
+        method: "POST",
+        body: JSON.stringify(item),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        setRender((pre) => pre + 1);
+      } else {
+        res.json().then((data) => alert(data.error.message));
+      }
+    });
   }
+  useEffect(() => {
+    fetch(
+      "https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo.json"
+    ).then((res) => {
+      if (res.ok) {
+        res.json().then((data) => {
+          let arr = [];
+          for (let keys in data) {
+            arr.push(data[keys]);
+            console.log(data[keys]);
+            setItems((pre) => [...arr]);
+          }
+        });
+      } else {
+        res.json().then((data) => console.log(data));
+      }
+    });
+  }, [render]);
+
   return (
     <div className="ExpensesForm">
       <h1>Expense Tracker</h1>
@@ -62,8 +94,6 @@ export default function ExpensesForm() {
         </div>
       </form>
       {items.map((item) => {
-        console.log(globalStore.expensesList);
-        console.log(item)
         return (
           <h1>
             {item.userCategories} : {item.userAmount} 💰 spend at{" "}
