@@ -42,8 +42,12 @@ export default function ExpensesForm() {
         res.json().then((data) => {
           let arr = [];
           for (let keys in data) {
-            arr.push(data[keys]);
-            console.log(data[keys]);
+            let obj = {
+              ...data[keys],
+              id: keys,
+            };
+            arr.push(obj);
+            // console.log(obj);
             setItems((pre) => [...arr]);
           }
         });
@@ -52,7 +56,40 @@ export default function ExpensesForm() {
       }
     });
   }, [render]);
-
+  function deleteExpense(id) {
+    fetch(
+      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo/${id}.json`,
+      {
+        method: "DELETE",
+        // body: JSON.stringify(item),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        setRender((pre) => pre - 1);
+        alert("Expense successfuly deleted 💸");
+      } else {
+        res.json().then((data) => alert(data.error.message));
+      }
+    });
+  }
+  function editExpense(item) {
+    amount.current.value = item.userAmount;
+    description.current.value = item.userDescription;
+    categories.current.value = item.userCategories
+    fetch(
+      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo/${item.id}.json`,
+      {
+        method: "DELETE",
+      }
+    ).then((res) => {
+      if (res.ok) {
+        setRender((pre) => pre - 1);
+        alert("Now edite the Expense 📝");
+      } else {
+        res.json().then((data) => alert(data.error.message));
+      }
+    });
+  }
   return (
     <div className="ExpensesForm">
       <h1>Expense Tracker</h1>
@@ -95,10 +132,14 @@ export default function ExpensesForm() {
       </form>
       {items.map((item) => {
         return (
-          <h1>
-            {item.userCategories} : {item.userAmount} 💰 spend at{" "}
-            {item.userDescription}
-          </h1>
+          <>
+            <h1>
+              {item.userCategories} : {item.userAmount} 💰 spend at{" "}
+              {item.userDescription}
+            </h1>
+            <button onClick={() => deleteExpense(item.id)}>Delete</button>
+            <button onClick={() => editExpense(item)}>Edit</button>
+          </>
         );
       })}
     </div>
