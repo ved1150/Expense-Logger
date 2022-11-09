@@ -1,25 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import AuthForm from "./--AUTHENTICATION--/AuthForm";
-import globalContext from "./--CONTEXT--/globalContext";
 import ForgotPassword from "./--PAGE--/ForgotPassword";
 import HomePage from "./--PAGE--/HomePage";
 export default function App() {
-  let globalStore = useContext(globalContext);
-  console.log(globalStore.userLogin);
+  const isLogin = useSelector(state => state.auth.islogin)
   return (
     <Router>
       <Switch>
-       
-          {/* <Route path="/" exact> */}
-          { !globalStore.userLogin && <AuthForm />  }
-          {/* </Route> */}
-          <HomePage />    
-         
-             {/* {globalStore.userLogin &&   } */}
-          <Route path="/forgotpassword">
-             {/* {!globalStore.userLogin && <ForgotPassword />    } */}
-          </Route>
+        {!isLogin  && <AuthForm />}
+        <HomePage />
+        <Route path="/forgotpassword"></Route>
       </Switch>
     </Router>
   );

@@ -1,5 +1,7 @@
 import React, { useState, useRef, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {authActions} from "../--STORE--/AuthReducer"
 import globalContext from "../--CONTEXT--/globalContext";
 import "./AuthForm.css";
 export default function AuthForm() {
@@ -9,6 +11,11 @@ export default function AuthForm() {
   const conPassword = useRef();
   const passwordEmail = useRef();
   const globalStore = useContext(globalContext);
+let dispatch = useDispatch()
+const forgotPassword = useSelector(state => state.auth.forgotPassword)
+
+console.log(forgotPassword)
+
   function changeLoginState() {
     setIsLogin((pre) => !pre);
   }
@@ -31,8 +38,7 @@ export default function AuthForm() {
         }
       ).then((res) => {
         if (res.ok) {
-          console.log("ok");
-          res.json().then((data) => globalStore.login(data.idToken));
+          res.json().then((data) => dispatch(authActions.login(data.idToken)));
         } else {
           console.log("error");
           res.json().then((data) => alert(data.error.message));
@@ -85,7 +91,7 @@ export default function AuthForm() {
   }
   return (
     <div>
-      {!globalStore.passwordForgot && (
+      {!forgotPassword && (
         <form onSubmit={formHandler}>
           <div className="authForm">
             <h1> {isLogin ? "Login" : "Sign-up"}</h1>
@@ -108,7 +114,7 @@ export default function AuthForm() {
             {isLogin && (
               <Link
                 to="/forgotpassword"
-                onClick={() => globalStore.forgotbtn()}
+                onClick={() => dispatch(authActions.forgot())}
               >
                 forgot password
               </Link>
@@ -121,7 +127,7 @@ export default function AuthForm() {
           </div>
         </form>
       )}
-      {globalStore.passwordForgot && (
+      {forgotPassword&& (
         <div>
           <form>
             <label>Enter the email with which you have  registered :</label>
@@ -129,6 +135,7 @@ export default function AuthForm() {
             <input type="text" ref={passwordEmail}/>
           </form>
           <button onClick={sendLinkForPasswordUpdate}>send link</button>
+          <button onClick={() => dispatch(authActions.forgot()) }>back</button>
         </div>
       )}
     </div>

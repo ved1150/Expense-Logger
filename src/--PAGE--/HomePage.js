@@ -2,7 +2,15 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import globalContext from "../--CONTEXT--/globalContext";
 import "./HomePage.css";
 import ExpensesForm from "../--LAYOUT--/ExpensesForm";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../--STORE--/AuthReducer";
 export default function HomePage() {
+  const activePremiumAccount = useSelector((state) => state.Expense.activePremiumAccount);
+ console.log(activePremiumAccount)
+ const deactiveButton = useSelector((state) => state.Expense.deactiveButton);
+ console.log(deactiveButton)
+ const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
   const [a, setA] = useState(false);
   const [isverifyEmail, setIsVerifyEmail] = useState(false);
   const globalStore = useContext(globalContext);
@@ -40,7 +48,7 @@ export default function HomePage() {
       {
         method: "POST",
         body: JSON.stringify({
-          idToken: globalStore.tokenId,
+          idToken: token,
         }),
       }
     ).then((res) => {
@@ -74,7 +82,7 @@ export default function HomePage() {
     });
   }
   function logout() {
-    globalStore.userlogout();
+    dispatch(authActions.logout(null));
   }
   return (
     <div>
@@ -85,6 +93,7 @@ export default function HomePage() {
       </h4>
       {!isverifyEmail && <button onClick={verifyEmail}>verify email</button>}
       <button onClick={logout}>Logout</button>
+      {activePremiumAccount && !deactiveButton && <button >Activate Premium</button>}
       <hr />
       {a && (
         <form onSubmit={updateDetail}>

@@ -1,14 +1,29 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ExpensesForm.css";
-import globalContext from "../--CONTEXT--/globalContext";
+import { useDispatch, useSelector } from "react-redux";
+import { expensesActions } from "../--STORE--/ExpensesReducer";
 export default function ExpensesForm() {
-  let globalStore = useContext(globalContext);
+  const expensesList = useSelector((state) => state.Expense.list);
+  console.log(expensesList);
+  
+  const dispatch = useDispatch();
   const [items, setItems] = useState([]);
   const [render, setRender] = useState(0);
   let amount = useRef();
   let description = useRef();
   let categories = useRef();
-  console.log(items);
+  let totalExpense = 0
+  expensesList.map((list) => {
+    totalExpense += parseInt(list.userAmount)
+  })
+  console.log(totalExpense)
+  if(totalExpense > 10000){
+    // alert("Activate Premium")
+    dispatch(expensesActions.activeButton())
+  }
+  if(totalExpense <= 10000){
+    dispatch(expensesActions.deactiveButton())
+  }
   function input(event) {
     event.preventDefault();
     let enterAmount = amount.current.value;
@@ -19,7 +34,6 @@ export default function ExpensesForm() {
       userDescription: enterDescription,
       userCategories: enterCategories,
     };
-    globalStore.expensesList.push(item);
     fetch(
       "https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo.json",
       {
@@ -41,15 +55,21 @@ export default function ExpensesForm() {
       if (res.ok) {
         res.json().then((data) => {
           let arr = [];
-          for (let keys in data) {
-            let obj = {
-              ...data[keys],
-              id: keys,
-            };
-            arr.push(obj);
+          {
+            for (let keys in data) {
+              let obj = {
+                ...data[keys],
+                id: keys,
+              };
+              arr.push(obj);
+            }
+            dispatch(expensesActions.updateList([...arr]));
             // console.log(obj);
             setItems((pre) => [...arr]);
           }
+          
+           
+         
         });
       } else {
         res.json().then((data) => console.log(data));
@@ -75,7 +95,7 @@ export default function ExpensesForm() {
   function editExpense(item) {
     amount.current.value = item.userAmount;
     description.current.value = item.userDescription;
-    categories.current.value = item.userCategories
+    categories.current.value = item.userCategories;
     fetch(
       `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo/${item.id}.json`,
       {
