@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Expense-Logger/static/css/main.80556810.css",
+    "main.js": "/Expense-Logger/static/js/main.f855e57b.js",
+    "index.html": "/Expense-Logger/index.html",
+    "main.80556810.css.map": "/Expense-Logger/static/css/main.80556810.css.map",
+    "main.f855e57b.js.map": "/Expense-Logger/static/js/main.f855e57b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.80556810.css",
+    "static/js/main.f855e57b.js"
+  ]
+}
