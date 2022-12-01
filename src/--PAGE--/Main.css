@@ -12,3 +12,11 @@
   background-color: brown;
   border: none;
 }
+.darkmode{
+  color: white;
+  background-color: #150050;
+}
+.darkmode .detailBox  {
+  color: white;
+  background-color: #150050;
+}

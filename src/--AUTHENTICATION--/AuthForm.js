@@ -2,8 +2,8 @@ import React, { useState, useRef, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {authActions} from "../--STORE--/AuthReducer"
+import { expensesActions } from "../--STORE--/ExpensesReducer";
 import globalContext from "../--CONTEXT--/globalContext";
-import "./AuthForm.css";
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const email = useRef();
@@ -38,7 +38,11 @@ console.log(forgotPassword)
         }
       ).then((res) => {
         if (res.ok) {
-          res.json().then((data) => dispatch(authActions.login(data.idToken)));
+          res.json().then((data) => {
+            dispatch(authActions.login(data.idToken))
+            dispatch(expensesActions.setEmail(data.localId))
+            console.log(data.localId)
+          });
         } else {
           console.log("error");
           res.json().then((data) => alert(data.error.message));
@@ -48,7 +52,8 @@ console.log(forgotPassword)
       let conPasswordEntered = conPassword.current.value;
       if (passwordEntered !== conPasswordEntered) {
         alert("Password not match");
-      } else {
+      } 
+      else {
         fetch(
           "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC5BXr8sSDXdJ4Ye8lN8J9vnNi0s3nXtVg",
           {

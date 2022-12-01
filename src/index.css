@@ -1,13 +1,528 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html{line-height:1.15;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,footer,header,nav,section{display:block}h1{font-size:2em;margin:.67em 0}figcaption,figure,main{display:block}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent;-webkit-text-decoration-skip:objects}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}dfn{font-style:italic}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}audio,video{display:inline-block}audio:not([controls]){display:none;height:0}img{border-style:none}svg:not(:root){overflow:hidden}button,input,optgroup,select,textarea{font-family:sans-serif;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}button,html [type=button],[type=reset],[type=submit]{-webkit-appearance:button}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{border-style:none;padding:0}button:-moz-focusring,[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{display:inline-block;vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details,menu{display:block}summary{display:list-item}canvas{display:inline-block}template{display:none}[hidden]{display:none}
+
+.clearfix:after {visibility: hidden; display: block; font-size: 0; content: ''; clear: both; height: 0; }
+
+html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
+
+*, *:before, *:after {box-sizing: inherit}
+
+.visuallyhidden:not(:focus):not(:active) { position: absolute; width: 1px; height: 1px; margin: -1px;border: 0;padding: 0;white-space: nowrap;clip-path: inset(100%);clip: rect(00 0 0);overflow: hidden;}
+
+
+@import url('https://fonts.googleapis.com/css?family=Cinzel:700|EB+Garamond:700|Old+Standard+TT:700&display=swap');
+
+.App {
+  text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f4f4;
+  font-size: 62.5%;
 }
+
+h1,
+h2{
+    font-family: 'Old Standard TT';
+}
+
+h2{
+  font-size: 1.5rem;
+}
+img{
+  max-width: 100%;
+  display: inline-block;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+/* home style */
+.home{
+  background-color: #f4f4f4;
+  color: #0a1612;
+  height: 100vh;
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.homeHead{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 4%;
+  
+}
+
+.homeLogo{
+  width: 10%;
+  margin-left: 5%;
+}
+
+.home nav{
+  width: 20%;
+}
+
+.home ul{
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.home li{
+  list-style-type: none;
+  margin-right: 8%;
+}
+
+.home a{
+  color: #0a1612;
+  text-decoration: none;
+}
+
+.home h1{
+  font-size: 4rem;
+  margin-top: 10%;
+  margin-bottom: 0;
+}
+
+/* Home responsive design */
+@media(max-width: 700px){
+  .home nav{
+    justify-content: space-between
+    /* margin-right: 5%; */
+  }
+  .homeText{
+    margin-top: 20%;
+  }
+}
+
+@media(max-width:530px){
+  .home nav{
+    margin-right: 10%;
+  }
+  .homeText{
+    margin-top: 30%;
+  }
+  .homeText h1{
+    font-size: 2.5rem
+  }
+  .homeText h2{
+    font-size: 1.3rem;
+  }
+}
+
+@media(max-width: 420px){
+  .home nav{
+    margin-right: 25%;
+  }
+
+  .homeText{
+    margin-top: 40%;
+  }
+}
+
+
+/* login page */
+.loginPage, .loginContent, .loginForm,
+.registerPage, .registerContent, .registerForm{
+  display: flex;
+}
+
+.loginPage, .loginContent,
+.registerPage, .registerContent{
+justify-content: center;
+  align-items: center;
+}
+
+.loginPage, .registerPage{
+  background:url(./assets/loginLightGreyBg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  font-size: 1rem;
+  flex-direction: column;
+}
+
+.loginLogo{
+  width:40%;
+}
+
+.loginContent,
+.registerContent{
+  background: #1a2930;
+  color: white;
+  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  padding: 5% 2%;
+  width: 40%;
+  border-radius: 5px;
+}
+
+.loginForm,
+.registerForm{
+  flex-direction: column;
+  text-align: left;
+}
+
+.loginForm input,
+.registerForm input{
+  background:white;
+  margin: 2% 0;
+}
+
+.loginForm input:active,
+.registerForm input:active{
+  border: 5px solid #f7ce3e;
+}
+
+.loginForm h2,
+.registerForm h2{
+  margin: 5%;
+  text-align: center;
+}
+
+.loginForm a,
+.registerForm a,
+.loginForm .guest{
+  color: white;
+  text-decoration: none;
+  padding: 2% 0;
+  transition: all 0.5s;
+}
+
+.loginForm .guest{
+  border: none;
+  background: transparent;
+  text-align: left;
+}
+
+.loginForm a:hover,
+.loginForm a:focus,
+.loginForm .guest:hover,
+.loginForm .guest:focus,
+.registerForm a:hover,
+.registerForm a:focus{
+  color: #f7ce3e;
+  text-decoration: underline;
+}
+
+.loginForm .guest:hover,
+.loginForm .guest:focus{
+  background: transparent;
+}
+
+.loginForm button,
+.registerForm button{
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 1%;
+  color: rgb(24, 23, 23);;
+  transition: color 0.5s, background-color 0.5s;
+}
+
+.loginForm button a,
+.registerForm button a{
+  color: rgb(24, 23, 23);
+}
+
+.loginForm button:hover,
+.loginForm button:focus,
+.registerForm button:hover,
+.registerForm button:focus{
+  background-color: #f7ce3e;
+  color: white;
+}
+
+.loginForm button:active,
+.registerForm button:active{
+  position: relative;
+  top: 4px;
+  left: 2px;
+}
+
+/* login page responsive design */
+
+@media(max-width: 820px){
+  .loginContent,
+  .registerContent{
+    width: 60%;
+  }
+  .loginLogo,
+  .registerLogo{
+    display: none;
+  }
+}
+
+@media(max-width: 460px){
+  .loginContent{
+    width: 80%;
+  }
+}
+
+@media(max-width: 260px){
+  .loginContent{
+    width: 95%;
+  }
+}
+/* reigster page */
+.registerPage h2{
+  margin: 0;
+}
+
+/* register page responsive design */
+@media(max-width: 510px){
+  .registerContent{
+    width: 75%;
+  }
+}
+
+@media(max-width: 360px){
+  .registerContent{
+    width: 85%;
+  }
+}
+
+@media(max-width: 230px){
+  .registerContent{
+    width: 95%;
+  }
+}
+
+/* main page style */
+header{
+  background-color: #f4f4f4;
+  height: 20vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #1a2930;
+  position: relative;
+}
+ .darkmode header{
+  background-color: #1C0C5B;
+  height: 20vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: whitesmoke;
+  position: relative;
+}
+header .toggle-icon{
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: -25%;
+  right: 0 ;
+}
+header .logout{
+  text-decoration: none;
+  position: absolute;
+  font-size: 1rem;
+  right: 0;
+  background-color: #1a2930;
+  color: #f4f4f4;
+  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  border: 1px solid transparent;
+  padding: 1% 1.5%;
+  transition: transform 0.5s;
+}
+
+header .premium{
+  text-decoration: none;
+  /* position: absolute; */
+  font-size: 1rem;
+  margin-left: 20px;
+  /* right: 0; */
+  background-color: #1a2930;
+  color: #f4f4f4;
+  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  border: 1px solid transparent;
+  padding: 1% 1.5%;
+  transition: transform 0.5s;
+}
+
+header a:hover,
+header a:focus{
+  transform: scale(1.2);
+}
+
+.wrapper{
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.mainContent {
+  background-color: #f4f4f4;
+  position: relative;
+  height: 75vh;
+  padding: 2% 5%;
+  margin: 0 auto 0;
+  font-size: 1rem;
+}
+.darkmode{
+  background-color: #1C0C5B;
+  position: relative;
+  height: 75vh;
+  padding: 2% 5%;
+  margin: 0 auto 0;
+  font-size: 1rem;
+  color: #f4f4f4;
+}
+.calendar{
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(13, 1fr);
+}
+
+.cell{
+  border: 1px solid #0a1612;
+  padding: 2%;
+}
+
+.newLogPlus, .clear{
+  background-color: #1a2930;
+  color: #f4f4f4;
+  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  border: 1px solid transparent;
+  margin-left: 1150px;
+  transition: transform 0.5s;
+}
+
+.newLogPlus{
+  padding: 1% 1.5%;
+  right: 13%;
+  transform: none;
+  border-radius: 50%;
+}
+
+.clear{
+  padding: 1% 1.5%;
+  right: 5%;
+}
+
+.newLogPlus:hover,
+.newLogPlus:focus,
+.clear:hover,
+.clear:focus{
+  transform: scale(1.2);
+}
+
+.newLogPlus:active{
+  bottom: -20.5%;
+  right: 12.5%
+}
+
+.clear:active{
+  bottom: -20.5%;
+  right: 4.5%;
+}
+
+/* form styling */
+.logDetail{
+  margin-right: 5%;
+  width: 85%;
+}
+
+.addLogForm{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.addLogForm label{
+  margin: 1%;
+}
+
+.addLog{
+  background-color: #f4f4f4;
+  border: 1px solid #1a2930;
+  transition: all 0.5s;
+}
+
+.addLog:hover,
+.addLog:active,
+.addLog:focus{
+  background-color: #1a2930;
+  color: #f4f4f4;
+}
+
+@media(max-width: 1080px){
+  .logDetail{
+    width: 80%;
+    margin: 0;
+  }
+  .addLogForm{
+    justify-content: center;
+  }
+  .addLogForm input[type='text']{
+    width: 15%;
+  }
+}
+
+@media(max-width: 800px){
+  .newLogPlus{
+    bottom: -10%;
+  }
+
+  .newLogPlus:active{
+    bottom: -10.5%
+  }
+
+  .clear{
+    right: 11.5%;
+  }
+
+  .clear:active{
+    right: 11%;
+  }
+}
+
+@media(max-width: 600px){
+  header{
+    height: 25vh;
+    align-items: flex-end;
+    margin-bottom: 15px;
+  }
+  header a{
+    right: 40%;
+  }
+}
+
+@media(max-width: 550px){
+  .addLogForm{
+    flex-direction: column;
+  }
+  .addLogForm input[type='text']{
+    width: 100%;
+  }
+  .addLog{
+    margin: 20px 0;
+  }
+}
+
+@media(max-width: 490px){
+  header{
+    height: 20vh;
+    align-items: flex-start;
+  }
+  header h1{
+    font-size: 2.5rem;
+    margin-bottom: 1%;
+  }
+  header a{
+    top: 70%
+  }
+  .logDetail{
+    width: 70%
+  }
+}
+
+/* classes for java script */
+.hide{
+  display: none;
+}
+

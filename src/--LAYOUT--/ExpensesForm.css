@@ -1,46 +1,16 @@
-.ExpensesForm{
-    background-color: #A460ED;
-}
-
-.container{
+.a{
     display: flex;
-    justify-content: space-around;
 }
-.box{
+.expenseList{
     display: flex;
-    flex-direction: column;
-    padding: 20px;  
-    width: 250px;
 }
-label{
-    font-size: 20px;
-    font-weight: 900px;
+.expenseList button{
+   width: 150px;
+   height: 50px
 }
-input , .expense-cat{
-  width: 100%;
-  padding: 12px 24px;
-}
-.submitBtn{
-   padding: 20px;
-   background-color: #A460ED;
-   font-size: large; 
-   border: none;
-   border-radius: 10px;
-}
-
-li{
-   color: black;
-   font-size: 25px;
-}
-
-.delete ,.edit{
-    background-color: red;
-    border: none;
-    border-radius: 4px;
-    font-size: large; 
-    padding: 10px 20px;
-    font-style: normal;
-}
-.edit{
-    background-color: green;
-}
+.expenseList img{
+    width: 40px;
+    height: 40px;
+    margin-left: 15px;
+    margin-top: 15px;
+ }

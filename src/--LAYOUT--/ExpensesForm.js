@@ -5,37 +5,46 @@ import { expensesActions } from "../--STORE--/ExpensesReducer";
 export default function ExpensesForm() {
   const expensesList = useSelector((state) => state.Expense.list);
   console.log(expensesList);
-  
+  const email = useSelector((state) => state.Expense.email);
+  const userEmail = JSON.parse(localStorage.getItem("testObject"));
+  const showForm = useSelector    ((state) => state.Expense.showExpenseForm);
+  console.log(userEmail);
+  console.log(email);
+  const toggle = useSelector((state) => state.toggle.lightMode);
   const dispatch = useDispatch();
   const [items, setItems] = useState([]);
   const [render, setRender] = useState(0);
   let amount = useRef();
+  let date = useRef();
   let description = useRef();
   let categories = useRef();
-  let totalExpense = 0
+  let totalExpense = 0;
   expensesList.map((list) => {
-    totalExpense += parseInt(list.userAmount)
-  })
-  console.log(totalExpense)
-  if(totalExpense > 10000){
+    totalExpense += parseInt(list.userAmount);
+  });
+  console.log(totalExpense);
+  if (totalExpense > 10000) {
     // alert("Activate Premium")
-    dispatch(expensesActions.activeButton())
+    dispatch(expensesActions.activeButton());
   }
-  if(totalExpense <= 10000){
-    dispatch(expensesActions.deactiveButton())
+  if (totalExpense <= 10000) {
+    dispatch(expensesActions.deactiveButton());
   }
   function input(event) {
     event.preventDefault();
+    let enterDate = date.current.value;
     let enterAmount = amount.current.value;
+    console.log(enterDate);
     let enterDescription = description.current.value;
     let enterCategories = categories.current.value;
     let item = {
       userAmount: enterAmount,
       userDescription: enterDescription,
       userCategories: enterCategories,
+      userDate : enterDate
     };
     fetch(
-      "https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo.json",
+      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}.json`,
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -50,7 +59,7 @@ export default function ExpensesForm() {
   }
   useEffect(() => {
     fetch(
-      "https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo.json"
+      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}.json`
     ).then((res) => {
       if (res.ok) {
         res.json().then((data) => {
@@ -67,9 +76,6 @@ export default function ExpensesForm() {
             // console.log(obj);
             setItems((pre) => [...arr]);
           }
-          
-           
-         
         });
       } else {
         res.json().then((data) => console.log(data));
@@ -78,7 +84,7 @@ export default function ExpensesForm() {
   }, [render]);
   function deleteExpense(id) {
     fetch(
-      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo/${id}.json`,
+      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}/${id}.json`,
       {
         method: "DELETE",
         // body: JSON.stringify(item),
@@ -97,7 +103,7 @@ export default function ExpensesForm() {
     description.current.value = item.userDescription;
     categories.current.value = item.userCategories;
     fetch(
-      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/listInfo/${item.id}.json`,
+      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}/${item.id}.json`,
       {
         method: "DELETE",
       }
@@ -110,55 +116,81 @@ export default function ExpensesForm() {
       }
     });
   }
+  const mode = !toggle ? "darkmode" : "ExpensesForm";
   return (
-    <div className="ExpensesForm">
-      <h1>Expense Tracker</h1>
-      <form clsssName="my-form" onSubmit={input}>
-        <div className="box">
-          <label for="amount">Choose Amount:</label>
-          <input
-            type="number"
-            clsssName="amount"
-            placeholder="Enter amount..."
-            ref={amount}
-          />
-        </div>
-        <div className="box">
-          <label for="description">Choose Description:</label>
-          <input
-            type="text"
-            clsssName="description"
-            placeholder="Enter text..."
-            ref={description}
-          />
-        </div>
-        <div className="box">
-          <label for="expense-cat">Choose a Categories:</label>
-          <select name="expense-cat" clsssName="expense-cat" ref={categories}>
-            <optgroup label="categories">
-              <option value="housing">Housing</option>
-              <option value="transportation">Transportation</option>
-              <option value="food">Food</option>
-              <option value="medical">Medical & Healthcare</option>
-              <option value="personal spending">
-                Personal Spending & Entertainment
-              </option>
-            </optgroup>
-          </select>
-        </div>
-        <div className="box">
-          <button>Submit</button>
-        </div>
-      </form>
+    <div className={mode}>
+      {/* <h1>Expense Tracker</h1> */}
+      {showForm && (
+        <form clsssName="my-form" onSubmit={input}>
+          <div className="a">
+            <div>
+              <label for="date">Date:</label>
+              <input
+                type="date"
+                clsssName="date"
+                ref={date}
+                style={{ width: 200, height: 50 }}
+              />
+            </div>
+            <div className="box">
+              <label for="amount">Amount:</label>
+              <input
+                type="number"
+                clsssName="amount"
+                placeholder="Enter amount..."
+                ref={amount}
+                style={{ width: 200, height: 50 }}
+              />
+            </div>
+
+            <div className="box">
+              <label for="description">Description:</label>
+              <input
+                type="text"
+                clsssName="description"
+                placeholder="Enter text..."
+                ref={description}
+                style={{ width: 200, height: 50 }}
+              />
+            </div>
+            <div className="box">
+              <label for="expense-cat">Categories:</label>
+              <select
+                name="expense-cat"
+                clsssName="expense-cat"
+                ref={categories}
+                style={{ width: 200, height: 50 }}
+              >
+                <optgroup label="categories">
+                  <option value="housing">Housing</option>
+                  <option value="transportation">Transportation</option>
+                  <option value="food">Food</option>
+                  <option value="medical">Medical & Healthcare</option>
+                  <option value="personal spending">
+                    Personal Spending & Entertainment
+                  </option>
+                </optgroup>
+              </select>
+            </div>
+            <div className="box">
+              <button  style={{ width: 50, height: 50 }}>Add</button>
+            </div>
+          </div>
+        </form>
+      )}
       {items.map((item) => {
         return (
           <>
+         
+          <div className="expenseList">
             <h1>
-              {item.userCategories} : {item.userAmount} 💰 spend at{" "}
+              {item.userDate} :{item.userCategories} : {item.userAmount} 💰 spend at{" "}
               {item.userDescription}
             </h1>
-            <button onClick={() => deleteExpense(item.id)}>Delete</button>
-            <button onClick={() => editExpense(item)}>Edit</button>
+            <img src="https://cdn-icons-png.flaticon.com/128/6460/6460112.png" onClick={() => deleteExpense(item.id)} />
+            <img src="https://cdn-icons-png.flaticon.com/128/3131/3131658.png" onClick={() => editExpense(item)}/>
+          </div>
+          <hr />
           </>
         );
       })}

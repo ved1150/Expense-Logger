@@ -1,18 +1,31 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch, Router, HashRouter } from "react-router-dom";
 import AuthForm from "./--AUTHENTICATION--/AuthForm";
-import ForgotPassword from "./--PAGE--/ForgotPassword";
-import HomePage from "./--PAGE--/HomePage";
+import Login from "./--AUTHENTICATION--/Login";
+import ForgotPassword from "./--AUTHENTICATION--/ForgotPassword";
+import Register from "./--AUTHENTICATION--/Register";
+import Main from "./--PAGE--/Main";
+import Home from "./--PAGE--/Home";
 export default function App() {
-  const isLogin = useSelector(state => state.auth.islogin)
+  const isLogin = useSelector((state) => state.auth.islogin);
   return (
-    <Router>
+    <HashRouter basename="/">
       <Switch>
-        {!isLogin  && <AuthForm />}
-        <HomePage />
-        <Route path="/forgotpassword"></Route>
+        {!isLogin && <Route exact path="/">
+          <Home />
+        </Route>}
+        {!isLogin &&<Route path="/login">
+          <Login />
+        </Route> }
+        {!isLogin &&<Route path="/register">
+          <Register />
+        </Route> }
+        {!isLogin && <Route path="/forgotpassword">
+          <ForgotPassword />
+        </Route> }
+        {isLogin &&<Main />}
       </Switch>
-    </Router>
+    </HashRouter>
   );
 }

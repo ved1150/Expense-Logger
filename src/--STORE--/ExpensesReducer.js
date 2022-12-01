@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const expensesData = {
   list: [],
   activePremiumAccount : false ,
-  deactiveButton : false 
+  deactiveButton : false ,
+  email : null ,
+  showExpenseForm : false
 };
 
 const expensesSlice = createSlice({
@@ -20,7 +22,13 @@ const expensesSlice = createSlice({
     deactiveButton(state){
         state.deactiveButton = true 
         state.activePremiumAccount = false
-      }
+      },
+    setEmail(state , action){
+       state.email = action.payload
+    },
+    showExpenseForm(state ,action){
+      state.showExpenseForm = !state.showExpenseForm
+    }
   },
 });
 
