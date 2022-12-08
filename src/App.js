@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Route, Switch, Router, HashRouter } from "react-router-dom";
 import AuthForm from "./--AUTHENTICATION--/AuthForm";
@@ -8,7 +8,13 @@ import Register from "./--AUTHENTICATION--/Register";
 import Main from "./--PAGE--/Main";
 import Home from "./--PAGE--/Home";
 export default function App() {
-  const isLogin = useSelector((state) => state.auth.islogin);
+  // const isLogin = useSelector((state) => state.auth.islogin);
+  const login = useSelector((state) => state.auth.islogin);
+
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    setIsLogin((pre) => JSON.parse(localStorage.getItem("isLogin")));
+  }, [login]);
   return (
     <HashRouter basename="/">
       <Switch>

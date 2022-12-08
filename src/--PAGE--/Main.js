@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { expensesActions } from "../--STORE--/ExpensesReducer";
 import { authActions } from "../--STORE--/AuthReducer";
 import { Link } from "react-router-dom";
+import Profile from "./Profile";
 export default function HomePage() {
+  const openProfile = useSelector((state) => state.toggle.profile);
+  console.log(openProfile);
+  const isLogin = useSelector((state) => state.auth.islogin);
   const toggle = useSelector((state) => {
     return {
       mode: state.toggle.lightMode,
@@ -24,75 +28,87 @@ export default function HomePage() {
   const [a, setA] = useState(false);
   const [isverifyEmail, setIsVerifyEmail] = useState(false);
   const globalStore = useContext(globalContext);
-  const name = useRef();
-  const url = useRef();
-  function updateDetail(event) {
-    event.preventDefault();
-    const nameEnter = name.current.value;
-    const urlEnter = url.current.value;
-
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyC5BXr8sSDXdJ4Ye8lN8J9vnNi0s3nXtVg",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: globalStore.tokenId,
-          displayName: nameEnter,
-          photoUrl: urlEnter,
-          deleteAttribute: "Display_Name",
-          returnSecureToken: true,
-        }),
-      }
-    ).then((res) => {
-      if (res.ok) {
-        alert("your form is updated");
-        res.json().then((data) => console.log(data));
-      } else {
-        res.json().then((data) => data);
-      }
-    });
-  }
-  useEffect(() => {
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyC5BXr8sSDXdJ4Ye8lN8J9vnNi0s3nXtVg",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: token,
-        }),
-      }
-    ).then((res) => {
-      if (res.ok) {
-        res.json().then((data) => {
-          globalStore.preinfo.name = data.users[0].email;
-          globalStore.preinfo.url = data.users[0].photoUrl;
-        });
-      } else {
-        res.json().then((data) => console.log(data));
-      }
-    });
-  }, []);
-  function verifyEmail() {
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC5BXr8sSDXdJ4Ye8lN8J9vnNi0s3nXtVg",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          idToken: globalStore.tokenId,
-          requestType: "VERIFY_EMAIL",
-        }),
-      }
-    ).then((res) => {
-      if (res.ok) {
-        alert("Check in your mail box");
-        setIsVerifyEmail(true);
-      } else {
-        res.json().then((data) => alert(data.error.message));
-      }
-    });
-  }
+  const userName = useRef();
+  const userUrl = useRef();
+  const [name, setName] = useState();
+  const [url, seturl] = useState();
+  // function updateDetail(event) {
+  //   event.preventDefault();
+  //   const nameEnter = userName.current.value;
+  //   const urlEnter = userUrl.current.value;
+  //   setName(nameEnter);
+  //   seturl(urlEnter);
+  //   const token = JSON.parse(localStorage.getItem("token"));
+  //   fetch(
+  //     "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAoBiPW5g1kGaX_qn62asvoI-eyQqRaL88",
+  //     {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         idToken: token,
+  //         displayName: nameEnter,
+  //         photoUrl: urlEnter,
+  //         deleteAttribute: "Display_Name",
+  //         returnSecureToken: true,
+  //       }),
+  //     }
+  //   ).then((res) => {
+  //     if (res.ok) {
+  //       alert("your form is updated");
+  //       res.json().then((data) => {
+  //         console.log(data);
+  //         // seturl(data.users[0].photoUrl);
+  //         // setname(data.users[0].email);
+  //       });
+  //     } else {
+  //       res.json().then((data) => data);
+  //     }
+  //   });
+  // }
+  // useEffect(() => {
+  //   const token = JSON.parse(localStorage.getItem("token"));
+  //   fetch(
+  //     "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAoBiPW5g1kGaX_qn62asvoI-eyQqRaL88",
+  //     {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         idToken: token,
+  //       }),
+  //     }
+  //   ).then((res) => {
+  //     if (res.ok) {
+  //       res.json().then((data) => {
+  //         seturl(data.users[0].photoUrl);
+  //         setName(data.users[0].email);
+  //       });
+  //     } else {
+  //       res.json().then((data) => console.log(data));
+  //     }
+  //   });
+  // }, [isLogin]);
+  // function verifyEmail() {
+  //   fetch(
+  //     "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAoBiPW5g1kGaX_qn62asvoI-eyQqRaL88",
+  //     {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         idToken: globalStore.tokenId,
+  //         requestType: "VERIFY_EMAIL",
+  //       }),
+  //     }
+  //   ).then((res) => {
+  //     if (res.ok) {
+  //       alert("Check in your mail box");
+  //       setIsVerifyEmail(true);
+  //     } else {
+  //       res.json().then((data) => alert(data.error.message));
+  //     }
+  //   });
+  // }
   function logout() {
     dispatch(authActions.logout(null));
+    localStorage.clear();
+      window.location.reload();
+
   }
   const mode = !toggle.mode ? "darkmode" : "mainContent";
   return (
@@ -102,6 +118,15 @@ export default function HomePage() {
         <Link to="/" onClick={logout} className="logout">
           Logout
         </Link>
+
+        <Link
+          to=""
+          className="profileBtn"
+          onClick={() => dispatch(toggleActions.openProfile())}
+        >
+          Profile
+        </Link>
+
         {activePremiumAccount && !deactiveButton && (
           <Link
             className="premium"
@@ -120,14 +145,10 @@ export default function HomePage() {
         )}
       </header>
 
-      <h4>
-        Your profile is incomplete.
-        <button onClick={() => setA(true)}>complete now</button>
-      </h4>
-      {!isverifyEmail && <button onClick={verifyEmail}>verify email</button>}
+      
       <hr />
       {a && (
-        <form onSubmit={updateDetail}>
+        <form>
           <div className="detailBox">
             <div className="closeDetail">
               <h3>Contact Details</h3>
@@ -135,24 +156,35 @@ export default function HomePage() {
             </div>
             <div className="inputBox">
               <label>Full name:</label>
-              <input type="text" ref={name} value={globalStore.preinfo.name} />
+              <input type="text" ref={userName} defaultValue={name} />
               <label>profile photo URl</label>
-              <input
-                type="text"
-                required
-                ref={url}
-                value={globalStore.preinfo.url}
-              />
+              <input type="text" required ref={userUrl} defaultValue={url} />
             </div>
             <button>Update</button>
           </div>
         </form>
       )}
       <div className="newLog">
-        <button className="newLogPlus" onClick={() => dispatch(expensesActions.showExpenseForm())}>+</button>
+        <button
+          className="newLogPlus"
+          onClick={() => dispatch(expensesActions.showExpenseForm())}
+        >
+          +
+        </button>
         <label className="visuallyhidden">add a log</label>
       </div>
+      <span> </span>
+      <div className="newLog">
+        <button
+          className="newLogPlus"
+        >
+          ⇩
+        </button>
+        <label className="visuallyhidden">download</label>
+      </div>
+      
       <ExpensesForm />
+      {openProfile && <Profile />}
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function Register() {
       alert("Password not match");
     } else {
       fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC5BXr8sSDXdJ4Ye8lN8J9vnNi0s3nXtVg",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAoBiPW5g1kGaX_qn62asvoI-eyQqRaL88",
         {
           method: "POST",
           body: JSON.stringify({
@@ -33,10 +33,17 @@ export default function Register() {
           console.log("User has successfully signed up.");
           alert("Sign-up successfully ");
           res.json().then((data) => {
-          dispatch(authActions.login(data.idToken));
-          localStorage.setItem('token', JSON.stringify(data.idToken));
-          dispatch(expensesActions.setEmail(data.localId));
-          localStorage.setItem('userId', JSON.stringify(data.localId)); 
+            let userEmail = data.email.replace(
+              /[&,+()$~%@.'":*?<>{}]/g,
+              ""
+            );
+            localStorage.setItem("token", JSON.stringify(data.idToken));
+            localStorage.setItem("isLogin", JSON.stringify(true));
+            localStorage.setItem("userEmail", JSON.stringify(userEmail));
+            let token =  JSON.parse(localStorage.getItem("token"));
+            let email =  JSON.parse(localStorage.getItem("userEmail"));
+            dispatch(authActions.login(token))
+            dispatch(expensesActions.setEmail(email)) 
           })
         } else {
           res.json().then((data) => alert(data.error.message));

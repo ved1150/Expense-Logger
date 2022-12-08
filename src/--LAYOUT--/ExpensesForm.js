@@ -5,7 +5,9 @@ import { expensesActions } from "../--STORE--/ExpensesReducer";
 export default function ExpensesForm() {
   const expensesList = useSelector((state) => state.Expense.list);
   console.log(expensesList);
-  const email = useSelector((state) => state.Expense.email);
+  const premium = useSelector((state) => state.toggle.premiumAccount);
+  // const email = useSelector((state) => state.Expense.email);
+  let email =  JSON.parse(localStorage.getItem("userEmail"));
   const userEmail = JSON.parse(localStorage.getItem("testObject"));
   const showForm = useSelector    ((state) => state.Expense.showExpenseForm);
   console.log(userEmail);
@@ -44,7 +46,7 @@ export default function ExpensesForm() {
       userDate : enterDate
     };
     fetch(
-      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}.json`,
+      `https://expense-logger-19aae-default-rtdb.firebaseio.com/${email}.json`,
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -59,7 +61,7 @@ export default function ExpensesForm() {
   }
   useEffect(() => {
     fetch(
-      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}.json`
+      `https://expense-logger-19aae-default-rtdb.firebaseio.com/${email}.json`
     ).then((res) => {
       if (res.ok) {
         res.json().then((data) => {
@@ -84,7 +86,7 @@ export default function ExpensesForm() {
   }, [render]);
   function deleteExpense(id) {
     fetch(
-      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}/${id}.json`,
+      `https://expense-logger-19aae-default-rtdb.firebaseio.com/${email}/${id}.json`,
       {
         method: "DELETE",
         // body: JSON.stringify(item),
@@ -103,7 +105,7 @@ export default function ExpensesForm() {
     description.current.value = item.userDescription;
     categories.current.value = item.userCategories;
     fetch(
-      `https://expense-tracker-react-ap-c4771-default-rtdb.firebaseio.com/${email}/${item.id}.json`,
+      `https://expense-logger-19aae-default-rtdb.firebaseio.com/${email}/${item.id}.json`,
       {
         method: "DELETE",
       }
@@ -116,10 +118,21 @@ export default function ExpensesForm() {
       }
     });
   }
+  function makeCSV(data) {
+    console.log(data)
+    let arr1 = data.map((obj) => {
+    
+      let arr2 = [obj.userAmount, obj.userCategories, obj.userDescription ,obj.userDate];
+      return arr2.join();
+    });
+    arr1.unshift(["AMOUNT", "CATEGORY", "DESCRIPTION" ,"DATA"]);
+    return arr1.join("\n");
+  }
+  const blob = new Blob([makeCSV(expensesList)]);
+
   const mode = !toggle ? "darkmode" : "ExpensesForm";
   return (
     <div className={mode}>
-      {/* <h1>Expense Tracker</h1> */}
       {showForm && (
         <form clsssName="my-form" onSubmit={input}>
           <div className="a">
@@ -175,6 +188,7 @@ export default function ExpensesForm() {
             <div className="box">
               <button  style={{ width: 50, height: 50 }}>Add</button>
             </div>
+           
           </div>
         </form>
       )}

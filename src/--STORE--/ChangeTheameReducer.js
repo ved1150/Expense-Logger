@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const toggleData = {
    lightMode : true ,
-   premiumAccount : false
+   premiumAccount : false ,
+   profile : false 
 };
 
 const toggleSlice = createSlice({
@@ -14,7 +15,11 @@ const toggleSlice = createSlice({
     } ,
     premiumAccount(state){
       state.premiumAccount = true
+    } ,
+    openProfile(state){
+      state.profile = !state.profile
     }
+
   },
 });
 

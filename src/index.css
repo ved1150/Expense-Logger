@@ -10,7 +10,7 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 
 
 @import url('https://fonts.googleapis.com/css?family=Cinzel:700|EB+Garamond:700|Old+Standard+TT:700&display=swap');
-
+/* homeText */
 .App {
   text-align: center;
 }
@@ -19,6 +19,7 @@ body{
   font-family: Arial, Helvetica, sans-serif;
   background: #f4f4f4;
   font-size: 62.5%;
+  
 }
 
 h1,
@@ -105,13 +106,13 @@ button:hover{
     margin-top: 30%;
   }
   .homeText h1{
-    font-size: 2.5rem
+    font-size: 2.5rem;
   }
   .homeText h2{
     font-size: 1.3rem;
   }
 }
-
+/* newLog */
 @media(max-width: 420px){
   .home nav{
     margin-right: 25%;
@@ -331,6 +332,22 @@ header .logout{
   padding: 1% 1.5%;
   transition: transform 0.5s;
 }
+header .profileBtn{
+  text-decoration: none;
+  position: absolute;
+  font-size: 1rem;
+  /* margin-top: 130px; */
+  /* margin-left: ; */
+  margin-bottom: 50px;
+  right: 0;
+  top: 80%;
+  background-color: #1a2930;
+  color: #f4f4f4;
+  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  border: 1px solid transparent;
+  padding: 1% 1.5%;
+  transition: transform 0.5s;
+}
 
 header .premium{
   text-decoration: none;
@@ -392,14 +409,17 @@ header a:focus{
   margin-left: 1150px;
   transition: transform 0.5s;
 }
-
+/* logout */
 .newLogPlus{
+  margin-top: 10px;
   padding: 1% 1.5%;
   right: 13%;
   transform: none;
   border-radius: 50%;
 }
-
+.download{
+  margin-top: 25px;
+}
 .clear{
   padding: 1% 1.5%;
   right: 5%;
@@ -526,3 +546,76 @@ header a:focus{
   display: none;
 }
 
+/* profile  */
+.profile {
+  margin: 3rem auto;
+  text-align: center;
+  position: fixed ;
+  top: 0 ;
+  bottom: 0 ;
+  right: 0 ;
+  left: 0 ;
+  background-color: #C060A1;
+  color: white;
+}
+.user-profile {
+  width: 95%;
+  max-width: 25rem;
+  margin: 2rem auto;
+  text-align: start;
+}
+
+.user-profile h2{
+  text-align: center;
+  font-weight: 400;
+}
+
+.user-profile input {
+  margin: 0 auto;
+  padding: 10px;
+  border: 0.5px solid rgb(215, 215, 215);
+  margin-bottom: 0.65rem;
+  font-size: 18px;
+  border-radius: 5px;
+  width: 95%;
+  transition: background-color 1s;
+}
+
+
+.user-profile label {
+  font-size: 17px;
+  padding: 0 12px;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+.user-profile button {
+  width: 95%;
+  padding: 8px;
+  margin: 1rem 0 1rem 0;
+  border: none;
+  background-color: rgb(53, 158, 243);
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 100;
+}
+.sendEmail{
+  width: 30%;
+  padding: 8px;
+  margin: 1rem 0 1rem 0;
+  border: none;
+  background-color: rgb(53, 158, 243);
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 100;
+}
+.closeProfile{
+  position: relative;
+  top : 0 ;
+  left: 48%;
+  font-size: xx-large;
+}
+/* newLogPlus */

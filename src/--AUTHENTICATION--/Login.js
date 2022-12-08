@@ -17,7 +17,7 @@ export default function Login() {
     let passwordEntered = password.current.value;
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC5BXr8sSDXdJ4Ye8lN8J9vnNi0s3nXtVg",
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAoBiPW5g1kGaX_qn62asvoI-eyQqRaL88",
       {
         method: "POST",
         body: JSON.stringify({
@@ -34,10 +34,17 @@ export default function Login() {
             /[&,+()$~%@.'":*?<>{}]/g,
             ""
           );
-          dispatch(authActions.login(data.idToken));
-          localStorage.setItem('token', JSON.stringify(data.idToken));
-          dispatch(expensesActions.setEmail(userEmail));
-          localStorage.setItem('userEmail', JSON.stringify(userEmail));
+          localStorage.setItem("token", JSON.stringify(data.idToken));
+          localStorage.setItem("isLogin", JSON.stringify(true));
+          localStorage.setItem("userEmail", JSON.stringify(userEmail));
+          let token =  JSON.parse(localStorage.getItem("token"));
+          let email =  JSON.parse(localStorage.getItem("userEmail"));
+          dispatch(authActions.login(token))
+          dispatch(expensesActions.setEmail(email)) 
+          // dispatch(authActions.login(data.idToken));
+          // localStorage.setItem('token', JSON.stringify(data.idToken));
+          // dispatch(expensesActions.setEmail(userEmail));
+          // localStorage.setItem('userEmail', JSON.stringify(userEmail));
         });
       } else {
         console.log("error");

@@ -39,9 +39,9 @@ console.log(forgotPassword)
       ).then((res) => {
         if (res.ok) {
           res.json().then((data) => {
-            dispatch(authActions.login(data.idToken))
-            dispatch(expensesActions.setEmail(data.localId))
+            
             console.log(data.localId)
+            
           });
         } else {
           console.log("error");

@@ -23,8 +23,8 @@ export default function Home() {
     </div>
 
     <div className="homeText">
-        <h1>EXPENSE LOGGER</h1>
-        <h2>A handy tool that helps you track your expenses</h2>
+        <h1 style={{   textAlign: "center"}}>EXPENSE LOGGER</h1>
+        <h2 style={{   textAlign: "center"}}>A handy tool that helps you track your expenses</h2>
     </div>
 </div>
   )
